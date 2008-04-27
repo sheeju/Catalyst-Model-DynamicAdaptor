@@ -17,4 +17,4 @@ requires:
   Module::Recursive::Require: 0
   Test::More: 0
   Test::Spelling: 0
-version: 0.01
+version: 0.02

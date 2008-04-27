@@ -6,7 +6,7 @@ use base qw/Catalyst::Model/;
 use NEXT;
 use Module::Recursive::Require;
 
-our $VERSION = 0.01;
+our $VERSION = 0.02;
 
 sub new {
     my $self  = shift->NEXT::new(@_);
@@ -22,22 +22,31 @@ sub new {
 
     no strict 'refs';
     for my $plugin (@plugins) {
-
-        my $obj = $plugin->new($config);
+        my %config = %{$config};
+        my $obj ;
+        if ( $plugin->can('new') ) {
+            $obj = $plugin->new(\%config);
+        }
 
         my $plugin_short = $plugin;
         $plugin_short =~ s/^$base_class\:\://g;
         my $classname = "${class}::$plugin_short";
 
-        *{"${classname}::ACCEPT_CONTEXT"} = sub {
-            return $obj;
-        };
+        if ( $plugin->can('new') ) { 
+            *{"${classname}::ACCEPT_CONTEXT"} = sub {
+                return $obj;
+            };
+        }
+        else {
+            *{"${classname}::ACCEPT_CONTEXT"} = sub {
+                return $plugin;
+            };
+
+        }
     }
 
     return $self;
-
 }
-
 
 1;
 
@@ -68,7 +77,9 @@ Catalyst::Model::DynamicAdaptor - Dynamically load adaptor modules
  sub foo : Local {
     my ( $self, $c ) = @_;
 
-    $c->model('Logic::Foo')->foo() ; # same as App::Logic::Foo->new->foo();
+    # same as App::Logic::Foo->new->foo(); if you have App::Logic::Foo::new
+    # same as App::Logic::Foo->foo(); # if you do not have App::Logic::Foo::new
+    $c->model('Logic::Foo')->foo() ; 
  }
 
  1;
@@ -90,6 +101,12 @@ Tomohiro Teranishi <tomohiro.teranishi@gmail.com>
 =head1 THANKS
 
 masaki
+
+vkgtaro
+
+hidek
+
+hideden
 
 =head1 LICENSE
 

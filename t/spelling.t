@@ -1,6 +1,9 @@
 use Test::More;
 use Test::Spelling;
+
 $ENV{LANG} = 'C';
+
+$ENV{TEST_SPELLING} or  plan skip_all => "no test for spelling. you must set TEST_SPELLING env for activate this test";
 
 my $spell_cmd;
 foreach my $path (split(/:/, $ENV{PATH})) {
@@ -20,3 +23,6 @@ adaptor
 Tomohiro
 Teranishi
 masaki
+hideden
+hidek
+vkgtaro

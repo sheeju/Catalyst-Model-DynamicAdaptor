@@ -10,5 +10,15 @@ sub default : Private {
     $c->response->body( $c->model('Logic::Oppai')->porn );
 }
 
+sub boin : Local {
+    my ( $self, $c ) = @_;
+    $c->response->body( $c->model('Logic::Boin')->boin );
+
+}
+sub foo : Local {
+    my ( $self, $c ) = @_;
+    $c->response->body( $c->model('Logic::Foo')->foo('foo') );
+}
+
 
 1;

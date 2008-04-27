@@ -20,6 +20,8 @@ t/app.t
 t/boilerplate.t
 t/lib/TestApp.pm
 t/lib/TestApp/Controller/Root.pm
+t/lib/TestApp/Logic/Boin.pm
+t/lib/TestApp/Logic/Foo.pm
 t/lib/TestApp/Logic/Oppai.pm
 t/lib/TestApp/Model/Logic.pm
 t/pod-coverage.t

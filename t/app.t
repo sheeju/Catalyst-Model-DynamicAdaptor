@@ -11,3 +11,8 @@ TestApp->setup;
 my $page = get('/');
 ok( $page =~ /no porn! Jon!/ , $page );
 
+$page = get('/boin');
+ok( $page =~ /boin/ , $page );
+
+$page = get('/foo');
+ok( $page =~ /foo/ , $page );
